@@ -94,6 +94,11 @@
       />
     </template>
     <template #sidebar-right>
+      <Block :title="'Instructions'">
+        <div class="mb-1">
+        First, connect your wallet above. Then enter your name and click 'Sign' to join the CXIP Coalition.
+        </div>
+      </Block>
       <Block :title="'About CXIP'">
         <div class="mb-1">
           NFTs do not protect your intellectual property. Yet.
