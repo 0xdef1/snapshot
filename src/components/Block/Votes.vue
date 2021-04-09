@@ -1,7 +1,7 @@
 <template>
   <Block
     v-if="Object.keys(votes).length > 0"
-    :title="$t('votes')"
+    :title="'Coalition Members'"
     :counter="Object.keys(votes).length"
     :slim="true"
   >
@@ -19,10 +19,7 @@
       />
       <div
         v-text="
-          _shorten(
-            proposal.msg.payload.choices[vote.msg.payload.choice - 1],
-            'choice'
-          )
+          (vote.msg.payload.metadata.userName ? vote.msg.payload.metadata.userName : '')
         "
         class="flex-auto text-center text-white"
       />
@@ -35,7 +32,7 @@
               .join(' + ')
           "
         >
-          {{ `${_n(vote.balance)} ${_shorten(space.symbol, 'symbol')}` }}
+          {{ /*`${_n(vote.balance)} ${_shorten(space.symbol, 'symbol')}`*/'' }}
         </span>
         <a
           @click="openReceiptModal(vote)"

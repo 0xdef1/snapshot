@@ -1,22 +1,22 @@
 <template>
   <UiModal :open="open" v-if="open" @close="$emit('close')" class="d-flex">
     <template v-slot:header>
-      <h3>{{ $t('confirmVote') }}</h3>
+      <h3><!--{{ $t('confirmVote') }}-->Confirm Signature</h3>
     </template>
     <div class="d-flex flex-column flex-auto">
       <h4 class="m-4 mb-0 text-center">
-        {{
+        <!--{{
           $tc('sureToVote', [proposal.msg.payload.choices[selectedChoice - 1]])
         }}
-        <br />
+        <br />-->
         {{ $t('cannotBeUndone') }}
       </h4>
       <div class="m-4 p-4 border rounded-2 text-white">
         <div class="d-flex">
-          <span v-text="$t('option')" class="flex-auto text-gray mr-1" />
-          {{ proposal.msg.payload.choices[selectedChoice - 1] }}
+          <span v-text="'Name'" class="flex-auto text-gray mr-1" />
+          {{ this.userName ? this.userName : '(blank)' }}
         </div>
-        <div class="d-flex">
+        <!--<div class="d-flex">
           <span v-text="$t('snapshot')" class="flex-auto text-gray mr-1" />
           <a
             :href="
@@ -50,7 +50,7 @@
           >
             <Icon name="info" size="24" class="text-gray" />
           </a>
-        </div>
+        </div>-->
       </div>
     </div>
     <template v-slot:footer>
@@ -67,7 +67,7 @@
           type="submit"
           class="width-full button--submit"
         >
-          {{ $t('proposal.vote') }}
+          <!--{{ $t('proposal.vote') }}-->Sign
         </UiButton>
       </div>
     </template>
@@ -86,7 +86,8 @@ export default {
     'selectedChoice',
     'snapshot',
     'totalScore',
-    'scores'
+    'scores',
+    'userName'
   ],
   emits: ['reload', 'close'],
   data() {
@@ -109,7 +110,7 @@ export default {
         payload: {
           proposal: this.id,
           choice: this.selectedChoice,
-          metadata: {}
+          metadata: {userName: this.userName}
         }
       });
       this.$emit('reload');

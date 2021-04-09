@@ -1,7 +1,7 @@
 <template>
   <Layout>
     <template #content-left>
-      <div class="px-4 px-md-0 mb-3">
+      <!--<div class="px-4 px-md-0 mb-3">
         <router-link
           :to="{ name: domain ? 'home' : 'proposals' }"
           class="text-gray"
@@ -9,12 +9,12 @@
           <Icon name="back" size="22" class="v-align-middle" />
           {{ space.name }}
         </router-link>
-      </div>
+      </div>-->
       <div class="px-4 px-md-0">
         <template v-if="loaded">
           <h1 class="mb-2">
             {{ payload.name }}
-            <span v-text="`#${id.slice(0, 7)}`" class="text-gray" />
+            <!--<span v-text="`#${id.slice(0, 7)}`" class="text-gray" />-->
           </h1>
           <div class="mb-4">
             <State :proposal="proposal" />
@@ -40,11 +40,19 @@
       <Block
         v-if="loaded && ts >= payload.start && ts < payload.end"
         class="mb-4"
-        :title="$t('proposal.castVote')"
+        :title="'Join the Coalition'"
       >
         <div class="mb-3">
-          <UiButton
-            v-for="(choice, i) in payload.choices"
+          <input
+            v-model="userName"
+            maxlength="128"
+            class="mb-2 input width-full border"
+            :placeholder="'Your Name (optional)'"
+            ref="nameForm"
+            :style="{height: '46px', borderRadius: '23px', paddingLeft: '20px'}"
+          />
+          <!--<UiButton
+            v-for="(choice, i) in payload.choices.slice(0,1)"
             :key="i"
             @click="selectedChoice = i + 1"
             class="d-block width-full mb-2"
@@ -67,7 +75,7 @@
             >
               <Icon name="warning" class="v-align-middle ml-1" />
             </a>
-          </UiButton>
+          </UiButton>-->
         </div>
         <UiButton
           :disabled="voteLoading || !selectedChoice || !web3.account"
@@ -75,7 +83,7 @@
           @click="modalOpen = true"
           class="d-block width-full button--submit"
         >
-          {{ $t('proposal.vote') }}
+          Sign
         </UiButton>
       </Block>
       <BlockVotes
@@ -85,11 +93,14 @@
         :votes="votes"
       />
     </template>
-    <template #sidebar-right v-if="loaded">
-      <Block :title="$t('information')">
+    <template #sidebar-right>
+      <Block :title="'About CXIP'">
         <div class="mb-1">
-          <b>{{ $t('strategies') }}</b>
-          <span
+          NFTs do not protect your intellectual property. Yet.
+          <br/><br/>
+          <a href="https://cxip.io" target="_blank">CXIP</a> is a platform that lets any artist complete a copyright application with the U.S. Copyright Office in less than 5 minutes.
+          <!--<b>{{ $t('strategies') }}</b>-->
+          <!--<span
             @click="modalStrategiesOpen = true"
             class="float-right text-white a"
           >
@@ -99,9 +110,9 @@
               </span>
               <span v-show="symbolIndex !== symbols.length - 1" class="ml-1" />
             </span>
-          </span>
+          </span>-->
         </div>
-        <div class="mb-1">
+        <!--<div class="mb-1">
           <b>{{ $t('author') }}</b>
           <User
             :address="proposal.address"
@@ -149,9 +160,9 @@
               <Icon name="external-link" class="ml-1" />
             </a>
           </div>
-        </div>
+        </div>-->
       </Block>
-      <BlockResults
+      <!--<BlockResults
         :id="id"
         :space="space"
         :payload="payload"
@@ -182,7 +193,7 @@
         :space="space"
         :payload="payload"
         :results="results"
-      />
+      />-->
     </template>
   </Layout>
   <teleport to="#modal">
@@ -198,6 +209,7 @@
       :totalScore="totalScore"
       :scores="scores"
       :snapshot="payload.snapshot"
+      :userName="userName"
     />
     <ModalStrategies
       :open="modalStrategiesOpen"
@@ -225,9 +237,10 @@ export default {
       results: [],
       modalOpen: false,
       modalStrategiesOpen: false,
-      selectedChoice: 0,
+      selectedChoice: 1,
       totalScore: 0,
-      scores: []
+      scores: [],
+      userName: ''
     };
   },
   computed: {
